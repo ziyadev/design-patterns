@@ -15,6 +15,13 @@ class Box extends Product {
     this.products = products;
   }
 
+  addProduct(product: Product) {
+    this.products.push(product);
+  }
+  removeProduct(product: Product) {
+    this.products = this.products.filter((p) => p !== product);
+  }
+
   getName(): string {
     return this.products.map((product) => product.getName()).join(", ");
   }
@@ -36,7 +43,6 @@ class Phone extends Product {
     return 100;
   }
 }
-
 class Computer extends Product {
   getName(): string {
     return "Computer";
@@ -46,6 +52,25 @@ class Computer extends Product {
     return 200;
   }
 }
+class Laptop extends Product {
+  getName(): string {
+    return "Laptop";
+  }
+
+  getPrice(): number {
+    return 300;
+  }
+}
+class Monitor extends Product {
+  getName(): string {
+    return "Monitor";
+  }
+
+  getPrice(): number {
+    return 400;
+  }
+}
+ 
 
 const products: Product[] = [
   new Phone(),
@@ -62,3 +87,20 @@ export default function ClientCode() {
     );
   }
 }
+
+// Example usage
+
+/**
+* The inventory class is a composite of boxes. we also add nested boxes to the inventory.
+*/
+ const inventory: Box = new Box([]); // inventory with no products
+inventory.addProduct(new Phone()) // Add a phone to the inventory
+inventory.addProduct(new Computer()) // Add a computer to the inventory
+/**
+* The inventory class is a composite. we also add nested boxes to the inventory.
+*/
+inventory.addProduct(new Box([new Monitor(), new Laptop()])); // Add a box to the inventory
+// new we can get inventory price easily
+console.log(inventory.getPrice()); // 100 + 200 + 300 + 400 = 1000
+// new we can get inventory name easily
+console.log(inventory.getName()); // Phone, Computer, Laptop, Monitor
